@@ -14,7 +14,7 @@ DWORD get_fattime (void)
 {
 	DWORD tmr;
 		
-#if defined __RTCC_LIB
+#if defined USE_RTCC_LIB
 	struct tm rtccTime;
 	RTCCGet(&rtccTime);
 	

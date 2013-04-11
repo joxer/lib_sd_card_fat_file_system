@@ -207,10 +207,13 @@ BOOL SDUnMount()
 /**
  * Retrieve available free space on disk (in KB)
  * \return DWORD >0: amount of KB available
- * \return DWORD 0: operation failed or no available space left
+ * \return DWORD 0: operation failed (for example read only configuration set) or no available space left
  */
 DWORD SDFreeSpace()
 {
+#if _FS_READONLY != 0
+	return 0;
+#else
 	FATFS *fs;
     DWORD fre_clust, fre_sect;
     
@@ -225,6 +228,7 @@ DWORD SDFreeSpace()
     fre_sect = fre_clust * fs->csize;
 
 	return (DWORD)(fre_sect / 2);
+#endif
 }
 
 /**
