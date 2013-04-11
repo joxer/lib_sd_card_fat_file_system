@@ -14,7 +14,7 @@ DWORD get_fattime (void)
 {
 	DWORD tmr;
 		
-#if defined __SD_CARD_USE_RTCC
+#if defined __RTCC_LIB
 	struct tm rtccTime;
 	RTCCGet(&rtccTime);
 	
