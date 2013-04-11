@@ -1,4 +1,4 @@
-lib_grove_chainable_RGB_leds
+lib_sd_card_fat_file_system
 ============================
 
 Flyport library for FAT32 File System on SD-Card, released under GPL v.3.<br>
