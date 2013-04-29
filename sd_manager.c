@@ -909,6 +909,43 @@ WORD SDStreamWrite(FIL* fobj, char *srcBuff, unsigned long to_write)
 #endif
 }
 
+
+WORD SDStreamWriteAt(FIL* fobj, char *srcBuff, unsigned long to_write, unsigned long start)
+{
+#if _FS_READONLY
+	return FALSE;
+#else
+	unsigned int len;
+	BOOL streamResult;
+	if ((fobj->flag && FA_WRITE) != 0)
+	{
+		//	Seek to the end of file
+		streamResult = f_lseek(fobj, start);
+		if (streamResult != FR_OK)
+		{
+			errManager();
+			fileClose(fobj);
+			return 0;		
+		}
+		
+		//	Append of the text at the end of file
+		streamResult = f_write(fobj, srcBuff, to_write, &len);
+		if ( (streamResult != FR_OK) || (len != to_write) )
+		{
+			SDdebug("ERROR on write\n");
+			errManager();
+			fileClose(fobj);
+			return 0;
+		}
+		else
+			return len;
+	}
+	else
+		return 0;
+#endif
+}
+
+
 /// @cond debug
 /**
  *	Mount the SD module. Internal static funtcion not to call from main 
